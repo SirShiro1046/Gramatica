@@ -11,6 +11,6 @@ package com.mycompany.gramatica;
 public class Gramatica {
     public static void main(String[] args) {
         System.out.println("sadads");
-        System.err.println("");
+        
     }
 }
