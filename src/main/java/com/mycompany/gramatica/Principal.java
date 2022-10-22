@@ -8,6 +8,11 @@ package com.mycompany.gramatica;
  *
  * @author myand
  */
-public class Gramatica {
-    
+public class Principal {
+    public static void main(String[] args) {
+        
+        
+       
+        
+    }
 }
