@@ -9,5 +9,7 @@ package com.mycompany.gramatica;
  * @author myand
  */
 public class Gramatica {
-    
+    public static void main(String[] args) {
+        System.out.println("sadads");
+    }
 }
