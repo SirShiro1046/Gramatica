@@ -10,9 +10,11 @@ package com.mycompany.gramatica;
  */
 public class Principal {
     public static void main(String[] args) {
-        
-        
        
+       
+                
+        Gramatica gramatica = new Gramatica("int x=1;");
+        gramatica.declaracion();
         
     }
 }
