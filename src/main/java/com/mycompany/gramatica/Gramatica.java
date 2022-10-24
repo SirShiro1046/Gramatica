@@ -1,20 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.gramatica;
-
 import java.util.ArrayList;
 
 /**
- *
  * @author myand
  */
 public class Gramatica {
     String s="              ";
+    String guardar="";
     String gramatica;
     ArrayList<Character> lista = new ArrayList<>();
     private int contador;
+    
     public Gramatica(String gramatica) {
         this.contador = 0;
         this.gramatica = gramatica;
@@ -34,33 +30,38 @@ public class Gramatica {
         String tipo []=gramatica.split(" ");
        
         if(tipo[0].equals("int")){
-            contador=2;
+            contador=4;
             
             entero(tipo[0]);
         }
         if (tipo[0].equals("float")) {
-            contador=4;
+            contador=6;
             
             flotante(tipo[0]);
         }
         if (tipo[0].equals("char")) {
-            contador=3;
+            contador=5;
             
             caracter(tipo[0]);
         }
         if (tipo[0].equals("double")) {
-            contador=5;
+            contador=7;
             
             doble(tipo[0]);
         }   
     }
     public void entero(String tipo){
+        guardar=guardar+tipo+" ";
         System.out.println(s+"-> "+"<entero>");
         System.out.println(s+"-> "+"int"+ " <id> <valorI> <lista_id>");
-        id();
+        
+        while (verificarId(lista.get(contador))==true) {
+            id();
+            System.out.println("<valorI> <lista_id>");
+            contador++;
+        }
         valorI();
         lista_id();
-        //"<valorI> <lista_id>");
     }
     public void flotante(String tipo){
         System.out.println(s+"-> "+"<flotante>");
@@ -84,18 +85,21 @@ public class Gramatica {
         lista_id();
     }
     public void lista_id(){
-        id();
-        lista_id();
+//        id();
+//        lista_id();
     }
     public void id(){
+        
         letra();
-        resto_id();
+        System.out.print("<letra><resto_id>");
+//        letra();
+//        resto_id();
         
     }
     public void resto_id(){
-        letra();
-        resto_id();
-        digito();
+//        letra();
+//        resto_id();
+//        digito();
         
         
     }
@@ -106,33 +110,48 @@ public class Gramatica {
         
     }
     public void letra(){
+        guardar=guardar+lista.get(contador);
+        System.out.print(s+"-> "+guardar);
         
     }
     public void digito(){
-        digito();
+//        digito();
     }
     public void digitoD(){
-        digito();
-        digitoD();
+//        digito();
+//        digitoD();
     }
     public void valorI(){
-        igual();
-        digito();
+//        igual();
+//        digito();
     }
     public void valorF(){
-        igual();
-        digitoD();
+//        igual();
+//        digitoD();
         
     }
     public void valorD(){
-        igual();
-        digitoD();
-        
+//        igual();
+//        digitoD();
+//        
     }
     public void valorC(){
-        igual();
-        comilla();
-        letra();
-        comilla();
-    }  
+//        igual();
+//        comilla();
+//        letra();
+//        comilla();
+    }
+    
+    public boolean verificarId(char caracter){ // Hecho por laura uwu
+        String minus="a b c d e f g h i j k l m n o p q r s t u v w x y z";
+        String mayus=" A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
+        String abc =minus+mayus;
+        
+        for (int i = 0; i < abc.length(); i++) {
+            if (abc.charAt(i)==caracter) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

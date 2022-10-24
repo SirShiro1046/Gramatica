@@ -12,8 +12,9 @@ public class Principal {
     public static void main(String[] args) {
        
        
-                
-        Gramatica gramatica = new Gramatica("int x=1;");
+        String oracion="int PrAmiiDE=1;";        
+        System.out.println("*************"+oracion+"***************");
+        Gramatica gramatica = new Gramatica(oracion);
         gramatica.declaracion();
         
     }
