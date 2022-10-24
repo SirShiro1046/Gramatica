@@ -23,12 +23,11 @@ public class Gramatica {
  
         System.out.println("<declaracion> -> <tipo>");
         tipo(gramatica);    
-    }
-    
+    } 
     public void tipo(String gramatica){
         
         String tipo []=gramatica.split(" ");
-       
+      
         if(tipo[0].equals("int")){
             contador=4;
             
@@ -141,10 +140,9 @@ public class Gramatica {
 //        letra();
 //        comilla();
     }
-    
     public boolean verificarId(char caracter){ // Hecho por laura uwu
-        String minus="a b c d e f g h i j k l m n o p q r s t u v w x y z";
-        String mayus=" A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
+        String minus="abcdefghijklmnopqrstuvwxyz";
+        String mayus="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String abc =minus+mayus;
         
         for (int i = 0; i < abc.length(); i++) {
@@ -155,3 +153,4 @@ public class Gramatica {
         return false;
     }
 }
+//int x
