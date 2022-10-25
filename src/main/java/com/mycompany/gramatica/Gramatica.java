@@ -59,29 +59,43 @@ public class Gramatica {
             System.out.println("<valorI> <lista_id>");
             contador++;
         }
+        
         valorI();
         lista_id();
     }
     public void flotante(String tipo){
-        System.out.println(s+"-> "+"<flotante>");
+        guardar=guardar+tipo+" ";
+        System.out.println(s+"-> "+"<entero>");
         System.out.println(s+"-> "+"float"+ " <id> <valorF> <lista_id>");
-        id();
-        valorF();
-        lista_id();
+        
+        while (verificarId(lista.get(contador))==true) {
+            id();
+            System.out.println("<valorD> <lista_id>");
+            contador++;
+        }
     }
     public void doble(String tipo){
-        System.out.println(s+"-> "+"<doble>");
+        guardar=guardar+tipo+" ";
+        System.out.println(s+"-> "+"<entero>");
         System.out.println(s+"-> "+"double"+ " <id> <valorD> <lista_id>");
-        id();
-        valorD();
-        lista_id();
+        
+        while (verificarId(lista.get(contador))==true) {
+            id();
+            System.out.println("<valorD> <lista_id>");
+            contador++;
+        }
     }
     public void caracter(String tipo){
-        System.out.println(s+"-> "+"<caracter>");
-        System.out.println(s+"-> "+"char"+" <id> <valorC> <lista_id>");
-        id();
-        valorD();
-        lista_id();
+        guardar=guardar+tipo+" ";
+        System.out.println(s+"-> "+"<entero>");
+        System.out.println(s+"-> "+"char"+ " <id> <valorC> <lista_id>");
+        
+        while (verificarId(lista.get(contador))==true) {
+            id();
+            System.out.println("<valorC> <lista_id>");
+            contador++;
+        }
+        
     }
     public void lista_id(){
 //        id();
@@ -89,8 +103,13 @@ public class Gramatica {
     }
     public void id(){
         
-        letra();
-        System.out.print("<letra><resto_id>");
+        letra(); 
+        if(lista.get(contador+1)=='='){
+            
+        }else{
+            System.out.print("<letra><resto_id>"); 
+        }
+        
 //        letra();
 //        resto_id();
         
@@ -141,9 +160,8 @@ public class Gramatica {
 //        comilla();
     }
     public boolean verificarId(char caracter){ // Hecho por laura uwu
-        String minus="abcdefghijklmnopqrstuvwxyz";
-        String mayus="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String abc =minus+mayus;
+        
+        String abc ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         
         for (int i = 0; i < abc.length(); i++) {
             if (abc.charAt(i)==caracter) {
