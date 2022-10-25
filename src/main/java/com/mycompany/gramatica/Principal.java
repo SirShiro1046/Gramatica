@@ -12,7 +12,7 @@ public class Principal {
     public static void main(String[] args) {
        
        
-        String oracion="char ED=0;";        
+        String oracion="int matricula=0;";        
         System.out.println("*************"+oracion+"***************");
         Gramatica gramatica = new Gramatica(oracion);
         gramatica.declaracion();

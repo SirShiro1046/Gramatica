@@ -21,7 +21,7 @@ public class Gramatica {
             lista.add(gramatica.charAt(i));
         }
  
-        System.out.println("<declaracion> -> <tipo>");
+        System.out.println("<declaracion> -> <tipo>;");
         tipo(gramatica);    
     } 
     public void tipo(String gramatica){
@@ -51,16 +51,26 @@ public class Gramatica {
     }
     public void entero(String tipo){
         guardar=guardar+tipo+" ";
-        System.out.println(s+"-> "+"<entero>");
-        System.out.println(s+"-> "+"int"+ " <id> <valorI> <lista_id>");
+        System.out.println(s+"-> "+"<entero>;");
+        System.out.println(s+"-> "+"int"+ " <id> <valorI> <lista_id>;");
         
         while (verificarId(lista.get(contador))==true) {
             id();
-            System.out.println("<valorI> <lista_id>");
+            System.out.println("<valorI> <lista_id>;");
+            contador++;
+        }
+        if(lista.get(contador)=='='){
+            igual();
+            System.out.println("<digito> <lista_id>;");
             contador++;
         }
         
-        valorI();
+        while (verificarValorI(lista.get(contador))==true) {            
+            
+            valorI();
+            contador++;
+        }
+      
         lista_id();
     }
     public void flotante(String tipo){
@@ -102,17 +112,11 @@ public class Gramatica {
 //        lista_id();
     }
     public void id(){
-        
         letra(); 
-        if(lista.get(contador+1)=='='){
-            
+        if(lista.get(contador+1)=='='){ 
         }else{
             System.out.print("<letra><resto_id>"); 
         }
-        
-//        letra();
-//        resto_id();
-        
     }
     public void resto_id(){
 //        letra();
@@ -126,6 +130,9 @@ public class Gramatica {
     }
     public void igual(){
         
+        System.out.print(s+"-> "+guardar);
+        System.out.print("<igual>");
+        guardar=guardar+lista.get(contador);
     }
     public void letra(){
         guardar=guardar+lista.get(contador);
@@ -140,6 +147,8 @@ public class Gramatica {
 //        digitoD();
     }
     public void valorI(){
+        guardar=guardar+lista.get(contador);
+        System.out.print(s+"-> "+guardar);
 //        igual();
 //        digito();
     }
@@ -159,12 +168,21 @@ public class Gramatica {
 //        letra();
 //        comilla();
     }
-    public boolean verificarId(char caracter){ // Hecho por laura uwu
-        
+    public boolean verificarId(char caracter){ // Hecho por laura uwu 
         String abc ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         
         for (int i = 0; i < abc.length(); i++) {
             if (abc.charAt(i)==caracter) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean verificarValorI(char caracter){ // Hecho por laura uwu 
+        String num ="0123456789";
+        
+        for (int i = 0; i < num.length(); i++) {
+            if (num.charAt(i)==caracter) {
                 return true;
             }
         }
