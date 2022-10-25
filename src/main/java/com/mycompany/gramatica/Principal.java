@@ -12,7 +12,8 @@ public class Principal {
     public static void main(String[] args) {
        
        
-        String oracion="int matricula=0;";        
+        String oracion="int dia_1=12,mes;";    
+        
         System.out.println("*************"+oracion+"***************");
         Gramatica gramatica = new Gramatica(oracion);
         gramatica.declaracion();

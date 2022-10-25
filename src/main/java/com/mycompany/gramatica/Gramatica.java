@@ -5,10 +5,10 @@ import java.util.ArrayList;
  * @author myand
  */
 public class Gramatica {
-    String s="              ";
-    String guardar="";
-    String gramatica;
-    ArrayList<Character> lista = new ArrayList<>();
+    private final String s="              ";
+    private String guardar="";
+    private final String gramatica;
+    private final ArrayList<Character> lista = new ArrayList<>();
     private int contador;
     
     public Gramatica(String gramatica) {
@@ -24,7 +24,7 @@ public class Gramatica {
         System.out.println("<declaracion> -> <tipo>;");
         tipo(gramatica);    
     } 
-    public void tipo(String gramatica){
+    private void tipo(String gramatica){
         
         String tipo []=gramatica.split(" ");
       
@@ -49,127 +49,147 @@ public class Gramatica {
             doble(tipo[0]);
         }   
     }
-    public void entero(String tipo){
+    private void entero(String tipo){
         guardar=guardar+tipo+" ";
         System.out.println(s+"-> "+"<entero>;");
-        System.out.println(s+"-> "+"int"+ " <id> <valorI> <lista_id>;");
+        System.out.println(s+"-> "+"int"+ "<id><valorI><lista_id>;");
         
-        while (verificarId(lista.get(contador))==true) {
+        do {     
+            while (verificarId(lista.get(contador))==true) {
             id();
-            System.out.println("<valorI> <lista_id>;");
+            System.out.println("<valorI><lista_id>;");
             contador++;
-        }
-        if(lista.get(contador)=='='){
-            igual();
-            System.out.println("<digito> <lista_id>;");
-            contador++;
-        }
-        
-        while (verificarValorI(lista.get(contador))==true) {            
+            }
+            if(lista.get(contador)=='='){
+                igual();
+                System.out.println("<digito><lista_id>;");
+                contador++;
+            }
+
+            while (verificarValorI(lista.get(contador))==true) {            
+
+                valorI();
+                System.out.println("<lista_id>;");
+                contador++;
+            }
+            if(lista.get(contador)==','){
+                lista_id();
+                System.out.println(",<id><lista_id>;");
+                contador++;
+                
+            }
             
-            valorI();
-            contador++;
-        }
-      
-        lista_id();
+        } while (lista.get(contador)!=';');
+            
+        
+            
+            System.out.println(s+"-> "+guardar+"<lista_id>;");
+            System.out.print(s+"-> "+guardar+";");
+            
+        
     }
-    public void flotante(String tipo){
+    private void flotante(String tipo){
         guardar=guardar+tipo+" ";
         System.out.println(s+"-> "+"<entero>");
-        System.out.println(s+"-> "+"float"+ " <id> <valorF> <lista_id>");
+        System.out.println(s+"-> "+"float"+ "<id><valorF><lista_id>");
         
         while (verificarId(lista.get(contador))==true) {
             id();
-            System.out.println("<valorD> <lista_id>");
+            System.out.println(" <valorD> <lista_id>");
             contador++;
         }
     }
-    public void doble(String tipo){
+    private void doble(String tipo){
         guardar=guardar+tipo+" ";
         System.out.println(s+"-> "+"<entero>");
-        System.out.println(s+"-> "+"double"+ " <id> <valorD> <lista_id>");
+        System.out.println(s+"-> "+"double"+ "<id><valorD><lista_id>");
         
         while (verificarId(lista.get(contador))==true) {
             id();
-            System.out.println("<valorD> <lista_id>");
+            System.out.println("<valorD><lista_id>");
             contador++;
         }
     }
-    public void caracter(String tipo){
+    private void caracter(String tipo){
         guardar=guardar+tipo+" ";
         System.out.println(s+"-> "+"<entero>");
-        System.out.println(s+"-> "+"char"+ " <id> <valorC> <lista_id>");
+        System.out.println(s+"-> "+"char"+ "<id><valorC><lista_id>");
         
         while (verificarId(lista.get(contador))==true) {
             id();
-            System.out.println("<valorC> <lista_id>");
+            System.out.println("<valorC><lista_id>");
             contador++;
         }
         
     }
-    public void lista_id(){
+    private void lista_id(){
+        
+        System.out.print(s+"-> "+guardar);
+        guardar=guardar+lista.get(contador);
 //        id();
 //        lista_id();
     }
-    public void id(){
+    private void id(){
         letra(); 
         if(lista.get(contador+1)=='='){ 
         }else{
             System.out.print("<letra><resto_id>"); 
         }
     }
-    public void resto_id(){
+    private void resto_id(){
 //        letra();
 //        resto_id();
 //        digito();
         
         
     }
-    public void comilla(){
+    private void comilla(){
         
     }
-    public void igual(){
+    private void igual(){
         
         System.out.print(s+"-> "+guardar);
         System.out.print("<igual>");
         guardar=guardar+lista.get(contador);
     }
-    public void letra(){
+    private void letra(){
         guardar=guardar+lista.get(contador);
         System.out.print(s+"-> "+guardar);
         
     }
-    public void digito(){
-//        digito();
+    private void digito(){
+                
+        System.out.print(s+"-> "+guardar);
+        guardar=guardar+lista.get(contador);
+        
     }
-    public void digitoD(){
+    private void digitoD(){
 //        digito();
 //        digitoD();
     }
-    public void valorI(){
-        guardar=guardar+lista.get(contador);
-        System.out.print(s+"-> "+guardar);
-//        igual();
-//        digito();
+    private void valorI(){
+        
+        digito();
+        System.out.print("<digito>");
     }
-    public void valorF(){
+    private void valorF(){
 //        igual();
 //        digitoD();
         
     }
-    public void valorD(){
+    private void valorD(){
 //        igual();
 //        digitoD();
 //        
     }
-    public void valorC(){
+    private void valorC(){
 //        igual();
 //        comilla();
 //        letra();
 //        comilla();
     }
-    public boolean verificarId(char caracter){ // Hecho por laura uwu 
-        String abc ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private boolean verificarId(char caracter){ // Hecho por laura uwu 
+        String abc ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
         
         for (int i = 0; i < abc.length(); i++) {
             if (abc.charAt(i)==caracter) {
