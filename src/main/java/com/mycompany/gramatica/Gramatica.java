@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author myand
  */
 public class Gramatica {
-
+    private boolean siguiente= true;
     private final String s = "              ";
     private String guardar = "";
     private final String gramatica;
@@ -59,35 +59,42 @@ public class Gramatica {
         System.out.println(s + "-> " + "int" + "<id><valorI><lista_id>;");
 
         do {
-            while (verificarId(lista.get(contador)) == true) {
+            while (verificarId(lista.get(contador)) == true && siguiente==true) {
                 id();
                 System.out.println("<valorI><lista_id>;");
                 contador++;
             }
-            if (lista.get(contador) == ' ') {    // por si hay un espacio que lo ignore para continuar a la siguiente posicion
+
+            if (lista.get(contador) == ' '&& siguiente==true) {    // por si hay un espacio que lo ignore para continuar a la siguiente posicion
                 guardar = guardar + lista.get(contador);
                 contador++;
             }
-            if (lista.get(contador) == '=') {
+            if (lista.get(contador) == '='&& siguiente==true) {
                 igual();
                 System.out.println("<digito><lista_id>;");
                 contador++;
             }
 
-            while (verificarValorI(lista.get(contador)) == true ) {
-
+            while (verificarValorI(lista.get(contador)) == true && siguiente==true ) {
+                
                 valorI();
                 System.out.println("<lista_id>;");
                 contador++;
             }
-            if (lista.get(contador) == ',') {
+            if(verificarId(lista.get(contador))||lista.get(contador)=='.'){
+                    siguiente =false;
+                }
+            if (lista.get(contador) == ','&& siguiente==true) {
                 lista_id();
                 System.out.println(",<id><lista_id>;");
                 contador++;
             }
-        } while (lista.get(contador) != ';');
-        System.out.println(s + "-> " + guardar + "<lista_id>;");
+        } while (lista.get(contador) != ';'&&siguiente==true);
+        if (siguiente==true) {
+               System.out.println(s + "-> " + guardar + "<lista_id>;");
         System.out.print(s + "-> " + guardar + ";");
+        }
+     
     }
 
     private void flotante(String tipo) {
@@ -217,15 +224,13 @@ public class Gramatica {
         letra();
         if (lista.get(contador + 1) == '=') {
         } else {
-            System.out.print("<letra><resto_id>");
+            System.out.print("<letra>");
+            resto_id();
         }
     }
 
     private void resto_id() {
-//        letra();
-//        resto_id();
-//        digito();
-
+        System.out.print("<resto_id>");
     }
 
     private void comilla() {
@@ -253,6 +258,8 @@ public class Gramatica {
     }
 
     private void digitoD() {
+        System.out.print(s + "-> " + guardar);
+        guardar = guardar + lista.get(contador);
 //        digito();
 //        digitoD();
     }
@@ -272,12 +279,15 @@ public class Gramatica {
     }
 
     private void valorD() {
+        digitoD();
+        System.out.print("<digito>");
 //        igual();
 //        digitoD();
 //        
     }
 
     private void valorC() {
+     
 //        igual();
 //        comilla();
 //        letra();
@@ -285,7 +295,7 @@ public class Gramatica {
     }
 
     private boolean verificarId(char caracter) { // Hecho por laura uwu 
-        String abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+        String abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 
         for (int i = 0; i < abc.length(); i++) {
             if (abc.charAt(i) == caracter) {
@@ -306,4 +316,16 @@ public class Gramatica {
         return false;
     }
 }
-//int x
+/*Recordatorio para programar mañana
+    en donde se lee el id poner una variable que guarde todo
+lo que vaya aceptando el metodo de verificar id
+despues todo eso guardarlo en una lista si si awebo 
+seguido de esto al momento de salir reiniciar o borrar lo que esta en la 
+variable string para la siguiente pasada
+pero id anterior ya estara guardado en la lista
+
+y ahora comprobar si en la lista hay valores similares
+si los valores son similares entonces hacer que siguiente 
+sea falso para asi detener todo el proceso
+
+*/
