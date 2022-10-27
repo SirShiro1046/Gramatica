@@ -4,6 +4,8 @@
  */
 package com.mycompany.gramatica;
 
+import java.util.Scanner;
+
 /**
  *
  * @author myand
@@ -11,9 +13,12 @@ package com.mycompany.gramatica;
 public class Principal {
     public static void main(String[] args) {
        
-       
-        String oracion="int dia_1=12,mes;";    
+        Scanner s = new Scanner(System.in);
+        String oracion;  
+        System.out.println("Ingresar Oracion xdddxddd");
+        oracion= s.nextLine();
         
+
         System.out.println("*************"+oracion+"***************");
         Gramatica gramatica = new Gramatica(oracion);
         gramatica.declaracion();
