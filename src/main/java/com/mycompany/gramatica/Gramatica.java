@@ -6,7 +6,12 @@ import java.util.ArrayList;
  * @author myand
  */
 public class Gramatica {
-    private boolean siguiente= true;
+
+    private int contComilla;
+    private boolean entroNumero = false;
+    private boolean entroIgual = false;
+    private boolean listaid = true;
+    private boolean siguiente = true;
     private final String s = "              ";
     private String guardar = "";
     private final String gramatica;
@@ -14,6 +19,8 @@ public class Gramatica {
     private int contador;
 
     public Gramatica(String gramatica) {
+        this.contComilla = 0;
+
         this.contador = 0;
         this.gramatica = gramatica;
     }
@@ -57,167 +64,249 @@ public class Gramatica {
         guardar = guardar + tipo + " ";
         System.out.println(s + "-> " + "<entero>;");
         System.out.println(s + "-> " + "int" + "<id><valorI><lista_id>;");
-
         do {
-            while (verificarId(lista.get(contador)) == true && siguiente==true) {
+            reducirEspacio();
+
+            while (Letrass(lista.get(contador)) == true && siguiente == true && listaid == true) {
                 id();
                 System.out.println("<valorI><lista_id>;");
-                contador++;
-            }
 
-            if (lista.get(contador) == ' '&& siguiente==true) {    // por si hay un espacio que lo ignore para continuar a la siguiente posicion
-                guardar = guardar + lista.get(contador);
                 contador++;
+
             }
-            if (lista.get(contador) == '='&& siguiente==true) {
+            listaid = false;
+            //convierte en while
+            reducirEspacio();
+
+            if (lista.get(contador) == '=' && siguiente == true) {
+                entroIgual = true;
                 igual();
                 System.out.println("<digito><lista_id>;");
                 contador++;
             }
+            reducirEspacio();
 
-            while (verificarValorI(lista.get(contador)) == true && siguiente==true ) {
-                
+            while (verificarValorI(lista.get(contador)) == true && siguiente == true) {
+                entroNumero = true;
                 valorI();
                 System.out.println("<lista_id>;");
                 contador++;
-            }
-            if(verificarId(lista.get(contador))||lista.get(contador)=='.'){
-                    siguiente =false;
+                // error: si dejo espacio entre el numero y la coma me marcara error
+                if (lista.get(contador) == ' ' || lista.get(contador) == '.') {
+                    siguiente = false;
+                    valorI();
+                    System.out.println("<lista_id>;");
                 }
-            if (lista.get(contador) == ','&& siguiente==true) {
+            }
+            reducirEspacio();
+            if (entroIgual == false && entroNumero == true || entroIgual == true && entroNumero == false) {
+                siguiente = false;
+            }
+            if (lista.get(contador) == ',' && siguiente == true) {
+                entroIgual = false;
+                entroNumero = false;
+                listaid = true;
                 lista_id();
                 System.out.println(",<id><lista_id>;");
                 contador++;
             }
-        } while (lista.get(contador) != ';'&&siguiente==true);
-        if (siguiente==true) {
-               System.out.println(s + "-> " + guardar + "<lista_id>;");
-        System.out.print(s + "-> " + guardar + ";");
+        } while (lista.get(contador) != ';' && siguiente == true && listaid == true);
+
+        if (siguiente == true && lista.get(contador) == ';') {
+            System.out.println(s + "-> " + guardar + "<lista_id>;");
+            System.out.print(s + "-> " + guardar + ";");
         }
-     
     }
 
     private void flotante(String tipo) {
         guardar = guardar + tipo + " ";
-        System.out.println(s + "-> " + "<entero>");
-        System.out.println(s + "-> " + "float" + "<id><valorF><lista_id>");
+        System.out.println(s + "-> " + "<flotante>;");
+        System.out.println(s + "-> " + "float" + "<id><valorF><lista_id>;");
+
         do {
-            while (verificarId(lista.get(contador)) == true) {
+            reducirEspacio();
+            while (Letrass(lista.get(contador)) == true && siguiente == true && listaid == true) {
                 id();
                 System.out.println("<valorF><lista_id>;");
+
                 contador++;
             }
+            listaid = false;
+            reducirEspacio();
 
-            if (lista.get(contador) == ' ') {    // por si hay un espacio que lo ignore para continiuar a la siguiente posicion
-                guardar = guardar + lista.get(contador);
-                contador++;
-            }
-
-            if (lista.get(contador) == '=') {
+            if (lista.get(contador) == '=' && siguiente == true) {
+                entroIgual = true;
                 igual();
                 System.out.println("<digito><lista_id>;");
                 contador++;
             }
+            reducirEspacio();
 
-            while (verificarValorI(lista.get(contador)) == true) {
-
+            while (verificarValorF(lista.get(contador)) == true && siguiente == true) {
+                entroNumero = true;
                 valorF();
                 System.out.println("<lista_id>;");
                 contador++;
-            }
 
-            if (lista.get(contador) == ',') {
+                // error: si dejo espacio entre el numero y la coma me marcara error
+                if (lista.get(contador) == ' ') {
+                    siguiente = false;
+                    valorI();
+                    System.out.println("<lista_id>;");
+                }
+            }
+            reducirEspacio();
+            if (entroIgual == false && entroNumero == true || entroIgual == true && entroNumero == false) {
+                siguiente = false;
+            }
+            if (lista.get(contador) == ',' && siguiente == true) {
+                entroIgual = false;
+                entroNumero = false;
+                listaid = true;
                 lista_id();
                 System.out.println(",<id><lista_id>;");
                 contador++;
             }
-        } while (lista.get(contador) != ';');
-        System.out.println(s + "-> " + guardar + "<lista_id>;");
-        System.out.print(s + "-> " + guardar + ";");
-
+        } while (lista.get(contador) != ';' && siguiente == true && listaid == true);
+        if (siguiente == true && lista.get(contador) == ';') {
+            System.out.println(s + "-> " + guardar + "<lista_id>;");
+            System.out.print(s + "-> " + guardar + ";");
+        }
     }
 
     private void doble(String tipo) {
         guardar = guardar + tipo + " ";
-        System.out.println(s + "-> " + "<entero>");
-        System.out.println(s + "-> " + "double" + "<id><valorD><lista_id>");
+        System.out.println(s + "-> " + "<double>;");
+        System.out.println(s + "-> " + "double" + "<id><valorF><lista_id>;");
 
         do {
-            while (verificarId(lista.get(contador)) == true) {
+            reducirEspacio();
+            while (Letrass(lista.get(contador)) == true && siguiente == true && listaid == true) {
                 id();
                 System.out.println("<valorD><lista_id>;");
+
                 contador++;
             }
-            if (lista.get(contador) == ' ') {    // por si hay un espacio que lo ignore para continiuar a la siguiente posicion
-                guardar = guardar + lista.get(contador);
-                contador++;
-            }
-            if (lista.get(contador) == '=') {
+            listaid = false;
+            reducirEspacio();
+
+            if (lista.get(contador) == '=' && siguiente == true) {
+                entroIgual = true;
                 igual();
                 System.out.println("<digito><lista_id>;");
                 contador++;
             }
+            reducirEspacio();
 
-            while (verificarValorI(lista.get(contador)) == true) {
-
-                valorD();
+            while (verificarValorD(lista.get(contador)) == true && siguiente == true) {
+                entroNumero = true;
+                valorF();
                 System.out.println("<lista_id>;");
                 contador++;
+
+                // error: si dejo espacio entre el numero y la coma me marcara error
+                if (lista.get(contador) == ' ') {
+                    siguiente = false;
+                    valorI();
+                    System.out.println("<lista_id>;");
+                }
             }
-            if (lista.get(contador) == ',') {
+            reducirEspacio();
+            if (entroIgual == false && entroNumero == true || entroIgual == true && entroNumero == false) {
+                siguiente = false;
+            }
+            if (lista.get(contador) == ',' && siguiente == true) {
+                entroIgual = false;
+                entroNumero = false;
+                listaid = true;
                 lista_id();
                 System.out.println(",<id><lista_id>;");
                 contador++;
             }
-        } while (lista.get(contador) != ';');
-        System.out.println(s + "-> " + guardar + "<lista_id>;");
-        System.out.print(s + "-> " + guardar + ";");
+        } while (lista.get(contador) != ';' && siguiente == true && listaid == true);
+        if (siguiente == true && lista.get(contador) == ';') {
+            System.out.println(s + "-> " + guardar + "<lista_id>;");
+            System.out.print(s + "-> " + guardar + ";");
+        }
     }
 
     private void caracter(String tipo) {
+        int contarChar = 0;
         guardar = guardar + tipo + " ";
-        System.out.println(s + "-> " + "<entero>");
-        System.out.println(s + "-> " + "char" + "<id><valorC><lista_id>");
+        System.out.println(s + "-> " + "<entero>;");
+        System.out.println(s + "-> " + "int" + "<id><valorC><lista_id>;");
 
         do {
-            while (verificarId(lista.get(contador)) == true) {
+            reducirEspacio();
+
+            while (Letrass(lista.get(contador)) == true && siguiente == true && listaid == true) {
                 id();
                 System.out.println("<valorC><lista_id>;");
+
                 contador++;
+
             }
-            if (lista.get(contador) == ' ') {    // por si hay un espacio que lo ignore para continiuar a la siguiente posicion
-                guardar = guardar + lista.get(contador);
-                contador++;
-            }
-            if (lista.get(contador) == '=') {
+            listaid = false;
+            //convierte en while
+            reducirEspacio();
+
+            if (lista.get(contador) == '=' && siguiente == true) {
+                entroIgual = true;
                 igual();
-                System.out.println("<digito><lista_id>;");
+                System.out.println("<comilla><letra><comilla><lista_id>;");
                 contador++;
             }
-
-            while (verificarValorI(lista.get(contador)) == true) {
-
+            reducirEspacio();
+            if (lista.get(contador) == 39) {
+                comilla();
+                System.out.println("'<letra><comilla><lista_id>;");
+                contador++;
+                contComilla++;
+            }
+            while (Letrass(lista.get(contador)) == true && siguiente == true && contarChar == 0) {
+                entroNumero = true;
                 valorC();
-                System.out.println("<lista_id>;");
+                System.out.println("<comillxa><lista_id>;");
                 contador++;
+
+                // error: si dejo espacio entre el numero y la coma me marcara error
+                if (lista.get(contador) == ' ' || lista.get(contador) == '.') {
+                    siguiente = false;
+                    valorI();
+                    System.out.println("<lista_id>;");
+                }
+                contarChar++;
             }
-            if (lista.get(contador) == ',') {
+            if (lista.get(contador) == 39) {
+                comilla();
+                System.out.println("'<lista_ids>;");
+                contador++;
+
+            }
+            reducirEspacio();
+            if (entroIgual == false && entroNumero == true || entroIgual == true && entroNumero == false) {
+                siguiente = false;
+            }
+            if (lista.get(contador) == ',' && siguiente == true) {
+                entroIgual = false;
+                entroNumero = false;
+                listaid = true;
                 lista_id();
                 System.out.println(",<id><lista_id>;");
                 contador++;
-            }
-        } while (lista.get(contador) != ';');
-        System.out.println(s + "-> " + guardar + "<lista_id>;");
-        System.out.print(s + "-> " + guardar + ";");
+                contarChar = 0;
 
+            }
+        } while (lista.get(contador) != ';' && siguiente == true && listaid == true);
+        if (siguiente == true && lista.get(contador) == ';') {
+
+            System.out.print(s + "-> " + guardar + ";");
+        }
     }
 
     private void lista_id() {
-
         System.out.print(s + "-> " + guardar);
         guardar = guardar + lista.get(contador);
-//        id();
-//        lista_id();
     }
 
     private void id() {
@@ -234,11 +323,11 @@ public class Gramatica {
     }
 
     private void comilla() {
-
+        System.out.print(s + "-> " + guardar);
+        guardar = guardar + lista.get(contador);
     }
 
     private void igual() {
-
         System.out.print(s + "-> " + guardar);
         System.out.print("<igual>");
         guardar = guardar + lista.get(contador);
@@ -247,25 +336,19 @@ public class Gramatica {
     private void letra() {
         guardar = guardar + lista.get(contador);
         System.out.print(s + "-> " + guardar);
-
     }
 
     private void digito() {
-
         System.out.print(s + "-> " + guardar);
         guardar = guardar + lista.get(contador);
-
     }
 
     private void digitoD() {
         System.out.print(s + "-> " + guardar);
         guardar = guardar + lista.get(contador);
-//        digito();
-//        digitoD();
     }
 
     private void valorI() {
-
         digito();
         System.out.print("<digito>");
     }
@@ -273,30 +356,19 @@ public class Gramatica {
     private void valorF() {
         digito();
         System.out.print("<digito>");
-//        igual();
-//        digitoD();
-
     }
 
     private void valorD() {
         digitoD();
         System.out.print("<digito>");
-//        igual();
-//        digitoD();
-//        
     }
 
     private void valorC() {
-     
-//        igual();
-//        comilla();
-//        letra();
-//        comilla();
+        letra();
     }
 
-    private boolean verificarId(char caracter) { // Hecho por laura uwu 
-        String abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
-
+    private boolean Letrass(char caracter) { // Hecho por laura uwu 
+        String abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for (int i = 0; i < abc.length(); i++) {
             if (abc.charAt(i) == caracter) {
                 return true;
@@ -306,8 +378,7 @@ public class Gramatica {
     }
 
     private boolean verificarValorI(char caracter) { // Hecho por laura uwu 
-        String num = "0123456789";
-
+        String num = "-0123456789";
         for (int i = 0; i < num.length(); i++) {
             if (num.charAt(i) == caracter) {
                 return true;
@@ -315,9 +386,38 @@ public class Gramatica {
         }
         return false;
     }
+
+    private boolean verificarValorF(char caracter) { // Hecho por laura uwu 
+        String num = "-0123456789.";
+        for (int i = 0; i < num.length(); i++) {
+            if (num.charAt(i) == caracter) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean verificarValorD(char caracter) { // Hecho por laura uwu 
+        String num = "-0123456789.eE";
+        for (int i = 0; i < num.length(); i++) {
+            if (num.charAt(i) == caracter) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void reducirEspacio() {
+        while (lista.get(contador) == ' ' && siguiente == true) {    // por si hay un espacio que lo ignore para continuar a la siguiente posicion
+            guardar = guardar + lista.get(contador);
+            contador++;
+        }
+    }
 }
+
+
 /*Recordatorio para programar mañana
-    en donde se lee el id poner una variable que guarde todo
+en donde se lee el id poner una variable que guarde todo
 lo que vaya aceptando el metodo de verificar id
 despues todo eso guardarlo en una lista si si awebo 
 seguido de esto al momento de salir reiniciar o borrar lo que esta en la 
@@ -328,4 +428,4 @@ y ahora comprobar si en la lista hay valores similares
 si los valores son similares entonces hacer que siguiente 
 sea falso para asi detener todo el proceso
 
-*/
+ */

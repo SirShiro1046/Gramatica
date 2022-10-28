@@ -4,7 +4,7 @@
  */
 package com.mycompany.gramatica;
 
-import java.util.Scanner;
+//import java.util.Scanner;
 
 /**
  *
@@ -13,10 +13,12 @@ import java.util.Scanner;
 public class Principal {
     public static void main(String[] args) {
        
-        Scanner s = new Scanner(System.in);
-        String oracion;  
+//        Scanner s = new Scanner(System.in);
+
+        
+        String oracion = "double saldo=0.0, x=0.e0;";  
         System.out.println("Ingresar Oracion xdddxddd");
-        oracion= s.nextLine();
+//        oracion= s.nextLine();
         
 
         System.out.println("*************"+oracion+"***************");
