@@ -6,7 +6,8 @@ import java.util.ArrayList;
  * @author myand
  */
 public class Gramatica {
-
+    private boolean veriableigual=false;
+    private String nombre="";
     private int contComilla;
     private boolean entroNumero = false;
     private boolean entroIgual = false;
@@ -15,6 +16,7 @@ public class Gramatica {
     private final String s = "              ";
     private String guardar = "";
     private final String gramatica;
+    private final ArrayList<String> listaVariables = new ArrayList<>();
     private final ArrayList<Character> lista = new ArrayList<>();
     private int contador;
 
@@ -64,16 +66,22 @@ public class Gramatica {
         guardar = guardar + tipo + " ";
         System.out.println(s + "-> " + "<entero>;");
         System.out.println(s + "-> " + "int" + "<id><valorI><lista_id>;");
+        System.out.println(s + "-> " + "int" + "<letra><valorI><lista_id>;");
         do {
             reducirEspacio();
-
+            
             while (Letrass(lista.get(contador)) == true && siguiente == true && listaid == true) {
+                nombre= nombre+lista.get(contador);
                 id();
                 System.out.println("<valorI><lista_id>;");
 
                 contador++;
 
             }
+            
+            listaVariables.add(nombre);
+            nombre="";
+            siguiente=ComprobarIgualdad();
             listaid = false;
             //convierte en while
             reducirEspacio();
@@ -102,6 +110,7 @@ public class Gramatica {
             if (entroIgual == false && entroNumero == true || entroIgual == true && entroNumero == false) {
                 siguiente = false;
             }
+
             if (lista.get(contador) == ',' && siguiente == true) {
                 entroIgual = false;
                 entroNumero = false;
@@ -110,6 +119,7 @@ public class Gramatica {
                 System.out.println(",<id><lista_id>;");
                 contador++;
             }
+         
         } while (lista.get(contador) != ';' && siguiente == true && listaid == true);
 
         if (siguiente == true && lista.get(contador) == ';') {
@@ -126,11 +136,15 @@ public class Gramatica {
         do {
             reducirEspacio();
             while (Letrass(lista.get(contador)) == true && siguiente == true && listaid == true) {
+                nombre= nombre+lista.get(contador);
                 id();
                 System.out.println("<valorF><lista_id>;");
 
                 contador++;
             }
+            listaVariables.add(nombre);
+            nombre="";
+            siguiente=ComprobarIgualdad();
             listaid = false;
             reducirEspacio();
 
@@ -182,11 +196,15 @@ public class Gramatica {
         do {
             reducirEspacio();
             while (Letrass(lista.get(contador)) == true && siguiente == true && listaid == true) {
+                nombre= nombre+lista.get(contador);
                 id();
                 System.out.println("<valorD><lista_id>;");
 
                 contador++;
             }
+            listaVariables.add(nombre);
+            nombre="";
+            siguiente=ComprobarIgualdad();
             listaid = false;
             reducirEspacio();
 
@@ -240,12 +258,16 @@ public class Gramatica {
             reducirEspacio();
 
             while (Letrass(lista.get(contador)) == true && siguiente == true && listaid == true) {
+                nombre= nombre+lista.get(contador);
                 id();
                 System.out.println("<valorC><lista_id>;");
 
                 contador++;
 
             }
+            listaVariables.add(nombre);
+            nombre="";
+            siguiente=ComprobarIgualdad();
             listaid = false;
             //convierte en while
             reducirEspacio();
@@ -334,6 +356,7 @@ public class Gramatica {
     }
 
     private void letra() {
+        
         guardar = guardar + lista.get(contador);
         System.out.print(s + "-> " + guardar);
     }
@@ -368,7 +391,7 @@ public class Gramatica {
     }
 
     private boolean Letrass(char caracter) { // Hecho por laura uwu 
-        String abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
         for (int i = 0; i < abc.length(); i++) {
             if (abc.charAt(i) == caracter) {
                 return true;
@@ -413,7 +436,23 @@ public class Gramatica {
             contador++;
         }
     }
+    
+    public boolean ComprobarIgualdad(){   
+        int n=1;
+
+        for (int i = 0; i <listaVariables.size(); i++) {
+            for (int j = n; j < listaVariables.size(); j++) {
+                if(listaVariables.get(i).equals(listaVariables.get(j))){
+                    System.out.println(s+"-> "+"Syntax Error Variable");
+                    return false;
+                }
+            }
+            n++; 
+        } 
+        return true;
+    }
 }
+
 
 
 /*Recordatorio para programar mañana
